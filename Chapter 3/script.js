@@ -26,11 +26,10 @@ const renderer = new THREE.WebGLRenderer({
 })
 
 renderer.setSize(sizes.width, sizes.height)
-
-const animate = () => {
-    mesh.rotation.x += 0.01;
-    mesh.rotation.y += 0.01
-    renderer.render(scene, camera);
-}
-renderer.setAnimationLoop(animate)
-// document.body.appendChild(renderer.domElement)
+renderer.render(scene, camera);
+// const animate = () => {
+//     mesh.rotation.x += 0.01;
+//     mesh.rotation.y += 0.01
+//     renderer.render(scene, camera);
+// }
+// renderer.setAnimationLoop(animate)
