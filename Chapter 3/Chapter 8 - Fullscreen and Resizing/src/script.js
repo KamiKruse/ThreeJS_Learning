@@ -6,14 +6,14 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 console.log(OrbitControls);
 
 //Cursor
-const cursor = {
-    x: 0,
-    y: 0
-}
-window.addEventListener("mousemove", (event) => {
-    cursor.x = event.clientX/sizes.width - 0.5 // Value normally goes from 0 to 1. This one ensures it goes from -0.5 to +0.5
-    cursor.y = -(event.clientY/sizes.height - 0.5)
-})
+// const cursor = {
+//     x: 0,
+//     y: 0
+// }
+// window.addEventListener("mousemove", (event) => {
+//     cursor.x = event.clientX/sizes.width - 0.5 // Value normally goes from 0 to 1. This one ensures it goes from -0.5 to +0.5
+//     cursor.y = -(event.clientY/sizes.height - 0.5)
+// })
 //Scene
 const scene = new THREE.Scene()
 
@@ -51,11 +51,45 @@ mesh.position.set(0, 0, 0)
 
 
 const sizes = {
-    width: 800,
-    height: 600
+    width: window.innerWidth,
+    height: window.innerHeight
 }
+
+window.addEventListener('resize', () =>{
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    //Camera update
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    //Renderer Update
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+})
+
+window.addEventListener('dblclick', ()=>{
+    const fullscreenElement  = document.fullscreenElement || document.webkitFullscreenElement
+    if (!fullscreenElement){
+        if(canvas.requestFullscreen){
+             canvas.requestFullscreen()
+        } else if( canvas.webkitRequestFullscreen){
+            canvas.webkitRequestFullscreen()
+        }
+    } else {
+        if(document.exitFullscreen){
+             document.exitFullscreen()
+        } else if(document.webkitExitFullscreen){
+            document.webkitExitFullscreen()
+        }
+       
+    }
+})
+
 const axesHelper = new THREE.AxesHelper();
 scene.add(axesHelper)
+
 //Camera
 const aspectRatio = sizes.width / sizes.height;
 const camera = new THREE.PerspectiveCamera(75, aspectRatio, .01, 100)
@@ -77,7 +111,7 @@ controls.enableDamping = true
 
 //Set Size
 renderer.setSize(sizes.width, sizes.height)
-
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 const clock = new THREE.Clock()
 
